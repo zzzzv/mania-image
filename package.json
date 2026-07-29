@@ -1,7 +1,7 @@
 {
   "name": "mania-image",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A TypeScript library for rendering osu!mania beatmaps to PNG images with Canvas 2D API.",
   "author": "zzzzv",
   "license": "MIT",

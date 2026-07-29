@@ -66,15 +66,16 @@ export function spliceStrips(
   contentCanvas: any,
   strip: { contentHeight: number },
   layout: LayoutResult,
+  dpr = 1,
 ): void {
   const { stripNum, stripWidth, stripHeight, finalScale, offsetX, offsetY } = layout
   for (let i = 0; i < stripNum; i++) {
-    const sy = strip.contentHeight - (i + 1) * stripHeight
+    const sy = (strip.contentHeight - (i + 1) * stripHeight) * dpr
     const sw = stripWidth * finalScale
     const sh = stripHeight * finalScale
     const dx = i * sw + offsetX
     const dy = offsetY
-    outputCtx.drawImage(contentCanvas, 0, sy, stripWidth, stripHeight, dx, dy, sw, sh)
+    outputCtx.drawImage(contentCanvas, 0, sy, stripWidth * dpr, stripHeight * dpr, dx, dy, sw, sh)
   }
 }
 
@@ -89,10 +90,12 @@ export async function render(
   const merged = deepMerge(defaultOptions, userOptions)
   const state = resolveOptions(beatmap, merged as Options)
   const { strip, layout } = state
+  const dpr = merged.renderer?.devicePixelRatio ?? 1
 
-  // 1. Content canvas — full timeline
-  const contentCanvas = new OffscreenCanvas(strip.contentWidth, strip.contentHeight)
+  // 1. Content canvas — full timeline (HiDPI if dpr > 1)
+  const contentCanvas = new OffscreenCanvas(strip.contentWidth * dpr, strip.contentHeight * dpr)
   const contentCtx = contentCanvas.getContext('2d')! as any
+  contentCtx.scale(dpr, dpr)
   renderContent({ canvas: contentCtx as any, beatmap, state })
 
   // 2. Output canvas — spliced strips
@@ -103,7 +106,7 @@ export async function render(
   outputCtx.fillStyle = layout.background.color
   outputCtx.fillRect(0, 0, layout.totalWidth, layout.totalHeight)
 
-  spliceStrips(outputCtx, contentCanvas, strip, layout)
+  spliceStrips(outputCtx, contentCanvas, strip, layout, dpr)
 
   return outputCanvas.convertToBlob({ type: 'image/png' })
 }

@@ -18,14 +18,16 @@ export function render(
   const merged = deepMerge(defaultOptions, userOptions)
   const state = resolveOptions(beatmap, merged as Options)
   const { strip, layout } = state
+  const dpr = merged.renderer?.devicePixelRatio ?? 1
 
-  const content = createCanvas(strip.contentWidth, strip.contentHeight)
+  const content = createCanvas(strip.contentWidth * dpr, strip.contentHeight * dpr)
+  content.ctx.scale(dpr, dpr)
   renderContent({ canvas: content.ctx, beatmap, state })
 
   const output = createCanvas(layout.totalWidth, layout.totalHeight)
   output.ctx.fillStyle = layout.background.color
   output.ctx.fillRect(0, 0, layout.totalWidth, layout.totalHeight)
-  spliceStrips(output.ctx, content.canvas, strip, layout)
+  spliceStrips(output.ctx, content.canvas, strip, layout, dpr)
 
   return output
 }

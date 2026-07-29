@@ -32,9 +32,9 @@ export const defaultOptions = {
   } as BarLineConfig | BarLineDraw,
   axis: {
     width: 30,
-    fontFamily: 'Segoe UI, system-ui, sans-serif',
-    minute: { color: '#FF3F00', strokeWidth: 2, fontSize: 18 },
-    second: { color: '#FFFFFF', strokeWidth: 1, fontSize: 18 },
+    fontFamily: 'SimHei, "Microsoft YaHei", "Arial Black", sans-serif',
+    minute: { color: '#FF3F00', strokeWidth: 2, fontSize: 24 },
+    second: { color: '#FFFFFF', strokeWidth: 2, fontSize: 22 },
   } as AxisConfig | AxisDraw,
   time: {
     start: 'auto' as 'auto' | number,
@@ -49,8 +49,6 @@ export const defaultOptions = {
   } as LayoutConfig,
   renderer: {
     devicePixelRatio: 1,
-    antialias: true,
-    backgroundAlpha: 1,
   },
 }
 

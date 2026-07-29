@@ -106,8 +106,6 @@ const defaultOptions = {
   },
   renderer: {
     devicePixelRatio: 1,
-    antialias: true,
-    backgroundAlpha: 1,
   },
 }
 ```

@@ -23,7 +23,7 @@ export function defaultAxisDraw(
 
   // Draw label
   canvas.fillStyle = style.color
-  canvas.font = `${style.fontSize}px sans-serif`
+  canvas.font = `bold ${style.fontSize}px ${config.fontFamily}`
   canvas.textAlign = 'center'
   canvas.textBaseline = 'middle'
   canvas.fillText(label, x + config.width / 2, y)
